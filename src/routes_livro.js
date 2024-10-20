@@ -6,17 +6,16 @@ const router = express.Router();
 
 router.use('/categorias', categoriaRouter);
 
-// Endpoint para adicionar um novo livro
 router.post('/livro', async (req, res) => {
   const { id_biblioteca, id_categoria, autor, titulo, data_inclusao } = req.body;
   try {
-    // Verificar se a biblioteca existe
+
     const bibliotecaResult = await client.query('SELECT * FROM biblioteca WHERE id_biblioteca = $1', [id_biblioteca]);
     if (bibliotecaResult.rows.length === 0) {
       return res.status(400).json({ error: 'Biblioteca não encontrada' });
     }
 
-    // Inserir o livro na biblioteca existente
+
     const livroResult = await client.query(
       'INSERT INTO livro (id_biblioteca, id_categoria, autor, titulo, data_inclusao) VALUES ($1, $2, $3, $4, $5) RETURNING id_livro',
       [id_biblioteca, id_categoria, autor, titulo, data_inclusao || new Date()]
@@ -28,7 +27,6 @@ router.post('/livro', async (req, res) => {
   }
 });
 
-// Endpoint para buscar detalhes de um livro e suas resenhas
 router.get('/livro/:id_livro', async (req, res) => {
   const { id_livro } = req.params;
   try {

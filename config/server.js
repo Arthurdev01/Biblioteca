@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(cors());
 const PORT = 8080;
 
-// Atualização das rotas de acordo com as alterações
 app.use('/api/categorias', categoriasRouter);
 app.use('/api/livro', livroRouter);
 app.use('/api/biblioteca', bibliotecaRouter);
